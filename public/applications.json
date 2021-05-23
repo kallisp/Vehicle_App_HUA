@@ -1,0 +1,32 @@
+[
+{
+    "appID":0,
+    "employeeID":0,
+    "dateCreated":"2021-05-22T13:29:14.840Z",
+    "dateModified":"2021-05-22T13:29:14.840Z",
+    "sellerCode":122312312312,
+    "buyerCode":123123123,
+    "vehicleNum":"OTE123",
+    "status": "In Progress"
+},
+{
+    "appID":1,
+    "employeeID":0,
+    "dateCreated":"2021-05-22T13:29:14.840Z",
+    "dateModified":"2021-05-22T13:29:14.840Z",
+    "sellerCode":3342342,
+    "buyerCode":777737346,
+    "vehicleNum":"OBE123",
+    "status": "In Progress"
+},
+{
+    "appID":2,
+    "employeeID":0,
+    "dateCreated":"2021-05-22T13:29:14.840Z",
+    "dateModified":"2021-05-22T13:29:14.840Z",
+    "sellerCode":123000300,
+    "buyerCode":44444445,
+    "vehicleNum":"OCE123",
+    "status": "In Progress"
+}
+]

@@ -1,0 +1,11 @@
+{
+    "userID":1,
+    "name": "Jane",
+    "surname": "Doe",
+    "email": "janedoe@blah.com",
+    "username": "jdoe",
+    "password": "1234",
+    "role": "citizen",
+    "registrationCode": 123456542 
+
+}

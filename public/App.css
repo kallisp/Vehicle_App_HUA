@@ -1,0 +1,307 @@
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* .app{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  min-height: 100vh;
+} */
+
+h4 {
+  text-align: left;
+  font-size: 35px;
+  font-weight: 300;
+  margin: 20px 0;
+}
+
+h5 {
+  text-align: left;
+  font-size: 26px;
+  font-weight: 100;
+  margin: 10px 0; 
+}
+
+.AppHeader {
+  background-color: #003476;
+  padding: 15px 0 15px 25px;
+  justify-content: left;
+  font-size: 25px;
+  color: white;
+  font-weight: 300;
+}
+
+.AppFooter {
+  background-color: #f2f2f2;
+  border-top: #044587 4px solid;
+  /* position: fixed; */
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.LogoHeader {
+  width: 220px;
+}
+
+.LogoFooter {
+  width: 250px;
+}
+
+.userIcon {
+  width: 27px;
+}
+
+.username-header {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.userAccount {
+  position: fixed;
+  padding: 20px;
+  top: 0;
+  right: 10px;
+  font-size: 17px;
+  text-align: center;
+  color: white;
+}
+
+.containerBase{
+  width: 960px;
+  margin: 0 auto;
+  min-height: calc(100vh - 282px);
+}
+
+.container-col {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 50%;
+  align-items: left;
+  flex-direction: column;
+  flex: 1;
+}
+
+.container-col-login {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 50%;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+}
+
+.container-col-30 {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 30%;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container-col-40{
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 40%;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.container-col-70 {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 60%;
+  align-items: left;
+  flex-direction: column;
+  padding-left: 10%;
+}
+
+.container-col-60 {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 60%;
+  align-items: left;
+  flex-direction: column;
+}
+
+.container-row {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.container-row-end {
+  display: flex;
+  justify-content: center; 
+  flex-direction: row;
+  width: 100%;
+  align-items: flex-end;
+}
+
+.container-row-flex-end {
+  display: flex;
+  justify-content: center; 
+  flex-direction: row;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+label {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 10px 0 5px 0;
+}
+
+input {
+  padding: 12px;
+  border: grey 1px solid;
+  border-radius: 5px;
+}
+
+.button {
+  background-color: #003476;
+  color:white;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 15px;
+}
+
+.button-signup {
+  background-color: #003476;
+  color:white;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 15px;
+  width: 30%;
+  margin: 10px 0;
+}
+
+.button-application {
+  background-color: #046ec5;
+  color:white;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 15px;
+  width: 30%;
+  margin: 10px 0;
+}
+
+.button-evaluation {
+  background-color: #046ec5;
+  color:white;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 15px;
+  width: 40%;
+  margin: 0 10px;
+}
+
+.text-center {
+  text-align: center;
+  padding: 10px;
+}
+
+th {
+  text-align: left;
+  font-size: 15px;
+}
+
+.th-border {
+  border-bottom: 1pt solid lightgrey;
+  padding-bottom: 15px;
+}
+
+td {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.td-width-50 {
+  width: 50%;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0px 0.6em;
+}
+
+.tableEmployee {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 10px 0 5px 0;
+}
+
+td{
+  border-bottom: 1pt solid lightgrey;
+  padding-bottom: 20px;
+}
+
+.editApplicationHeader {
+  font-weight: 600;
+  font-size: 18px;
+  border-bottom: 1pt solid lightgrey;
+  padding-bottom: 15px;
+}
+
+.search {
+  display: flex;
+  flex-direction:row;
+}
+
+.searchTerm {
+  width: 70%;
+  border: 1px solid grey;
+  padding: 6px;
+  height: 30px;
+  border-radius: 5px;
+  outline: none;
+}
+
+a {
+  text-decoration: none; 
+  color: black;
+  padding: 0 10px;
+}
+
+.menu a{
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.menu b{
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  display: block;
+}
+
+.menu td{
+  padding-bottom:0;
+}
+
+.menu a.active{
+  background-color: #003476;
+  color: white;
+}
+
