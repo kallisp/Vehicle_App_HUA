@@ -1,24 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { withRouter, NavLink } from 'react-router-dom';
 import Base from '../index'
 import EmployeeMenu from './employeeMenu'
+import superagent from 'superagent';
 
 class EmployeeApplications extends React.Component {
-    constructor(props){
-		super(props);
-		this.state = {
+    constructor(props) {
+        super(props);
+        this.state = {
             applications: []
         }
     }
 
-    async componentDidMount() {
-
-        const response = await fetch('/applications.json')
-
-        const applications = await response.json();
-
-        this.setState({applications:applications})
+    componentDidMount() {
+        superagent.get(`http://localhost:8000/applications/findApplicationByStatus`)
+            .set('accept', 'json')
+            .end((err, res) => {
+                if (err) {
+                    return alert(err.message);
+                }
+                this.setState({ applications: res.body });
+            });
     }
 
 
@@ -33,7 +35,7 @@ class EmployeeApplications extends React.Component {
                     <div className='container-col-70'>
                         <div className='editApplicationHeader'><b>Αιτήσεις σε εκκρεμότητα</b></div>
                         <p>Ελέγξτε την ορθότητα των παρακάτω αιτήσεων:</p>
-                        <table className='tableEmployee' style={{textAlign: 'center'}}>
+                        <table className='tableEmployee' style={{ textAlign: 'center' }}>
                             <thead>
                                 <tr>
                                     <th>Ημ/νία αίτησης</th>
@@ -43,14 +45,14 @@ class EmployeeApplications extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.applications.map((application)=>{
-                                    return <tr key={application.appID}> 
-                                        <td>{application.dateCreated}</td>
+                                {this.state.applications.map((application) => {
+                                    return <tr key={application.applicationId}>
+                                        <td>{new Date(application.dateCreated).toDateString()}</td>
                                         <td>{application.vehicleNum}</td>
-                                        <td>{application.status}</td>
-                                        <td><NavLink to ={`/employee-application-edit/${application.appID}`}>Προβολή</NavLink></td>
-                                        </tr>
-                                    })}
+                                        <td>{application.vehicleType}</td>
+                                        <td><NavLink className="nav-link" to={`/employee-application-edit/${application.applicationId}`}>Προβολή</NavLink></td>
+                                    </tr>
+                                })}
                             </tbody>
                         </table>
                     </div>

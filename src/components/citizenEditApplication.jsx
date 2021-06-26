@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Base from '../index'
 import CitizenMenu from './citizenMenu'
 
@@ -21,7 +20,7 @@ class EditApplication extends React.Component {
         const applications = await response.json();
 
         const application = applications.find((application) => {
-            if (this.state.vehicleNum == application.vehicleNum) {
+            if (this.state.vehicleNum === application.vehicleNum) {
                 return application
             }
         })

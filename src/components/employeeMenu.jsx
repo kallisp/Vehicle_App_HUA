@@ -13,12 +13,12 @@ class EmployeeMenu extends React.Component {
                             </NavLink>
                         </td>
                     </tr>
-                    <tr><td>
+                    {/* <tr><td>
                         <NavLink to='/login' activeClassName="active">
                             <div><b>Ιστορικό αιτήσεων</b></div>Δείτε αιτήσεις που έχουν ολοκληρωθεί επιτυχώς
                         </NavLink>
                     </td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </table>
         )

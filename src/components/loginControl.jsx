@@ -1,47 +1,64 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { withRouter, NavLink } from 'react-router-dom';
 import Base from '../index'
+import superagent from 'superagent';
 
 class LoginControl extends React.Component {
-	constructor(props){
-		super(props);
-		this.state = {
-            username:"", 
-            password:""
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: ""
+        }
+    }
+
+    componentDidMount() {
+        const userObj = sessionStorage.getItem('user');
+        if (userObj) {
+            const user = JSON.parse(userObj);
+            this.redirectPerRole(user);
         }
     }
 
     async login(event) {
         event.preventDefault();
-        try {
-        // const user = await serviceAPI.loginUser(this.state.username,this.state.password)
-        
-        const response = await fetch('/user.json')
+        superagent.post('http://localhost:8000/users/loginUser')
+            .send({
+                username: this.state.username,
+                password: this.state.password
+            })
+            .set('accept', 'json')
+            .end((err, res) => {
+                if (err) {
+                    return alert(res.body.message);
+                }
+                const user = res.body;
+                sessionStorage.setItem('user', JSON.stringify(user));
+                this.redirectPerRole(user);
 
-        const user = await response.json();
+            });
+    }
 
-        sessionStorage.setItem('user', JSON.stringify(user));
-
-        if (user.role == "citizen") {
-            this.props.history.push('/citizen-applications')
+    redirectPerRole(user) {
+        if (user.role === "citizen") {
+            this.props.history.push('/citizen-dashboard')
         }
-        else {
+        else if (user.role === 'employee') {
             this.props.history.push('/employee-applications')
+        } else {
+            alert('invalid role')
         }
-    } catch(error) {
-        console.error();
     }
-    }
+
 
     usernameChanged(event) {
         const username = event.target.value;
-        this.setState({username:username})
+        this.setState({ username: username })
     }
 
     passwordChanged(event) {
         const password = event.target.value;
-        this.setState({password:password})
+        this.setState({ password: password })
     }
 
     render() {
@@ -51,14 +68,14 @@ class LoginControl extends React.Component {
                     <h4>Είσοδος</h4>
                     <form className='loginForm'>
                         <label for="username">Όνομα χρήστη</label>
-                        <input type="text" id="username" name="username" onChange={this.usernameChanged.bind(this)}/><br />
+                        <input type="text" id="username" name="username" onChange={this.usernameChanged.bind(this)} /><br />
                         <label for="password">Κωδικός πρόσβασης</label>
-                        <input type="password" id="password" name="password" onChange={this.passwordChanged.bind(this)}/><br /><br />
-                        <input className='button' type="submit" value="Είσοδος στην υπηρεσία" onClick={this.login.bind(this)}/><br />
-                        <div className='text-center'>Δεν έχετε λογαριασμό;  
-                        <NavLink to="/sign-up">
-                        <u><b>Εγγραφή</b></u>
-                        </NavLink>
+                        <input type="password" id="password" name="password" onChange={this.passwordChanged.bind(this)} /><br /><br />
+                        <input className='button' type="submit" value="Είσοδος στην υπηρεσία" onClick={this.login.bind(this)} /><br />
+                        <div className='text-center'>Δεν έχετε λογαριασμό;
+                            <NavLink to="/sign-up">
+                                <u><b>Εγγραφή</b></u>
+                            </NavLink>
                         </div>
                     </form>
                 </div>

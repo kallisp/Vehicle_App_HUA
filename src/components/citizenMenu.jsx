@@ -8,18 +8,18 @@ class CitizenMenu extends React.Component {
                 <tbody>
                     <tr>
                         <td>
-                            <NavLink to='/citizen-applications' activeClassName="active">
+                            <NavLink to='/citizen-dashboard' activeClassName="active">
                                 <div><b>Νέα αίτηση μεταβίβασης</b></div>Ξεκινήστε τη διαδικασία για νέα μεταβίβαση
                             </NavLink>
                         </td>
                     </tr>
-                    <tr><td>
+                    {/* <tr><td>
                         <NavLink to='/citizen-application-edit' activeClassName="active">
                           <div><b>Επεξεργασία αίτησης</b></div>Επεξεργαστείτε μια αίτηση μεταβίβασης
                         </NavLink>
-                    </td></tr>
+                    </td></tr> */}
                     <tr><td>
-                        <NavLink to='/citizen-application-history' activeClassName="active">
+                        <NavLink to='/citizen-applications' activeClassName="active">
                             <div><b>Ιστορικό αιτήσεων</b></div>Δείτε προηγούμενες μεταβιβάσεις και την κατάστασή τους
                         </NavLink>
                     </td>

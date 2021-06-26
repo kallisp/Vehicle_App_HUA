@@ -1,72 +1,76 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { withRouter, NavLink } from 'react-router-dom';
 import Base from '../index'
 import CitizenMenu from './citizenMenu'
+import superagent from 'superagent';
 
 
 class CitizenApplications extends React.Component {
-    constructor(props){
-		super(props);
-		this.state = {
-            user: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            applications: []
         }
     }
 
     componentDidMount() {
-        const user = sessionStorage.getItem('user');
-        const userObj = JSON.parse(user);
-        this.setState({user:userObj})
+        let user;
+        try {
+            user = JSON.parse(sessionStorage.getItem('user'));
+        } catch (ex) {
+           return alert('user not found')
+        }
+        superagent.get(`http://localhost:8000/applications/findApplicationByUser/${user.id}`)
+            .set('accept', 'json')
+            .end((err, res) => {
+                if (err){
+                    return alert(err.message);
+                }
+                this.setState({applications: res.body});
+            });
     }
-    
-        render() {
 
-            let firstname;
-            let lastname;
-            let afm; 
+    render() {
+        return (
+            <Base>
+                <h4>Ιστορικό αιτήσεων</h4>
+                <div className='container-row'>
+                    <div className='container-col-30'>
+                        <CitizenMenu />
+                    </div>
+                    <div className='container-col-70'>
+                        {this.state.applications.length === 0 &&
+                            <p> Δεν υπάρχουν αιτήσεις</p>
+                        }
 
-            if (this.state.user !== null){
-                firstname = this.state.user.name;
-                lastname = this.state.user.surname;
-                afm = this.state.user.registrationCode;
-            }
-
-            return (
-                <Base>
-                    <h4>Επιλογές πολίτη</h4>
-                    <div className='container-row'>
-                        <div className='container-col-30'>
-                            <CitizenMenu />
-                        </div>
-                        <div className='container-col-70'>
-                            <table>
+                        {this.state.applications.length > 0 &&
+                            <table className='tableEmployee' style={{ textAlign: 'center' }}>
+                                <thead>
+                                    <tr>
+                                        <th>Ημ/νία αίτησης</th>
+                                        <th>Αριθμός κυκλοφορίας</th>
+                                        <th>Κατάσταση αίτησης</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <tr>
-                                        <th className='th-border' colSpan="2">Νέα αίτηση μεταβίβασης</th>
-                                    </tr>
-                                    <tr><td colSpan="2">Ελέγξτε για την ορθότητα των παρακάτω στοιχείων του δικαιούχου του οχήματος για τη νέα μεταβίβαση</td></tr>
-                                    <tr>
-                                        <td className='td-width-50'><b>Όνομα δικαιούχου</b></td>
-                                        <td>{firstname}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Επώνυμο δικαιούχου</b></td>
-                                        <td>{lastname}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>ΑΦΜ δικαιούχου</b></td>
-                                        <td>{afm}</td>
-                                    </tr>
+
+                                    {this.state.applications.map((application) => {
+                                        return <tr key={application.applicationId}>
+                                            <td>{new Date(application.dateCreated).toDateString()}</td>
+                                            <td>{application.vehicleNum}</td>
+                                            <td>{application.status}</td>
+                                            <td><NavLink className="nav-link" to={`/citizen-application/${application.applicationId}`}>Προβολή</NavLink></td>
+                                        </tr>
+                                    })}
                                 </tbody>
                             </table>
-                            <NavLink to='/citizen-application/:id'>
-                                <input className='button-application' type="submit" value="Έναρξη" />
-                            </NavLink>
-                        </div>
+                        }
                     </div>
-                </Base >
-            )
-        }
+                </div>
+            </Base >
+        )
     }
+}
 
-    export default withRouter(CitizenApplications);
+export default withRouter(CitizenApplications);
