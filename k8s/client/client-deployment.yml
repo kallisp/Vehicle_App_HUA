@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: react-nginx
+  template:
+    metadata:
+      labels:
+        component: react-nginx
+    spec:
+      containers:
+        - name: react-nginx
+          image: 'ghcr.io/kallisp/react-nginx:latest'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
