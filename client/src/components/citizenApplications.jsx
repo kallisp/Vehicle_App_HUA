@@ -20,7 +20,7 @@ class CitizenApplications extends React.Component {
         } catch (ex) {
            return alert('user not found')
         }
-        superagent.get(`/api/applications/findApplicationByUser/${user.id}`)
+        superagent.get(`/applications/findApplicationByUser/${user.id}`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err){

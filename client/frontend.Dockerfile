@@ -36,7 +36,6 @@ RUN rm -rf ./*
 COPY --from=builder /app/build .
 COPY --from=builder /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-
 EXPOSE 80
 
 # Containers run nginx with global directives and daemon off

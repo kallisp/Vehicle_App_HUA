@@ -13,7 +13,7 @@ class EvaluateApplication extends React.Component {
 
     async componentDidMount() {
         const id = this.props.match.params.id;
-        superagent.get(`/api/applications/findApplicationById/${id}`)
+        superagent.get(`/applications/findApplicationById/${id}`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
@@ -32,7 +32,7 @@ class EvaluateApplication extends React.Component {
     }
 
     updateStatus(status) {
-        superagent.put(`/api/applications/editApplicationStatus`)
+        superagent.put(`/applications/editApplicationStatus`)
             .send({
                 applId: this.props.match.params.id,
                 status

@@ -13,7 +13,7 @@ class EmployeeApplications extends React.Component {
     }
 
     componentDidMount() {
-        superagent.get(`/api/applications/findApplicationByStatus`)
+        superagent.get(`/applications/findApplicationByStatus`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
