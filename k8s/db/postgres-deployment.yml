@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgresdb
+      app: db
+  template:
+    metadata:
+      labels:
+        component: postgresdb
+        app: db
+    spec:
+      volumes:
+        - name:  pg-database-persistent-volume-storage
+          persistentVolumeClaim:
+            claimName: pg-pvc-claim
+      containers:
+        - name: postgres
+          image: 'ghcr.io/cgeorgala/postgres:latest'
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - name: pg-database-persistent-volume-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com-server

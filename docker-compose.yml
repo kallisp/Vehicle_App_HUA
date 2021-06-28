@@ -4,10 +4,10 @@ services:
   react-nginx:
     container_name: react-nginx
     build:
-      context: .
+      context: ./client
       dockerfile: frontend.Dockerfile
     volumes:
-      - .:/app
+      - ./client:/app
       - /app/nodes_modules
       # - /app/nginx/nginx.conf
     ports:

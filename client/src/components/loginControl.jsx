@@ -22,7 +22,7 @@ class LoginControl extends React.Component {
 
     async login(event) {
         event.preventDefault();
-        superagent.post('http://localhost:8000/users/loginUser')
+        superagent.post('/api/users/loginUser')
             .send({
                 username: this.state.username,
                 password: this.state.password

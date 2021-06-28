@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: node-server
+      app: server
+  template:
+    metadata:
+      labels:
+        component: node-server
+        app: server
+    spec:
+      containers:
+        - name: node-server
+          image: 'ghcr.io/cgeorgala/node-server:latest'
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: node-server-config
+          imagePullPolicy: "IfNotPresent"
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com-server

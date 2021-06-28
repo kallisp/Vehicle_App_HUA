@@ -18,7 +18,7 @@ class SignUpControl extends React.Component {
     }
 
     async signUp() {
-        superagent.post('http://localhost:8000/users/addUser')
+        superagent.post('/api/users/addUser')
             .send(this.data) // sends a JSON post body
             .set('accept', 'json')
             .end((err, res) => {

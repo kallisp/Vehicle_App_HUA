@@ -14,6 +14,13 @@ spec:
             name: client-clip 
             port: 
               number: 3000
+      - path: /api/
+        pathType: Prefix
+        backend:
+          service:
+            name: web 
+            port: 
+              number: 8000
   tls:
     - hosts: 
       - kspyrou.cloudns.cl
