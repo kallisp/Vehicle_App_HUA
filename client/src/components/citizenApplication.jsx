@@ -34,7 +34,7 @@ class CreateNewApplication extends React.Component {
         const id = this.props.match.params.id;
         if (id === 'new') { return; }
 
-        superagent.get(`/applications/findApplicationById/${id}`)
+        superagent.get(`/api/applications/findApplicationById/${id}`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
@@ -58,7 +58,7 @@ class CreateNewApplication extends React.Component {
     }
 
     createApplication() {
-        superagent.post('/applications/addApplication')
+        superagent.post('/api/applications/addApplication')
             .send({
                 vehicle_num: this.state.vehicle.regNumber,
                 certif_date: this.state.vehicle.certificateDate,
@@ -78,7 +78,7 @@ class CreateNewApplication extends React.Component {
     }
 
     updateApplication() {
-        superagent.put('/applications/editApplication')
+        superagent.put('/api/applications/editApplication')
             .send({
                 vehicle_num: this.state.vehicle.regNumber,
                 certif_date: this.state.vehicle.certificateDate,

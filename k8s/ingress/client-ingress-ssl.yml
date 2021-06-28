@@ -7,14 +7,14 @@ spec:
   - host: kspyrou.cloudns.cl
     http:
       paths:
-      - path: /?(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: client-clip 
             port: 
               number: 3000
-      - path: /api/?(.*)  
+      - path: /api
         pathType: Prefix
         backend:
           service:
