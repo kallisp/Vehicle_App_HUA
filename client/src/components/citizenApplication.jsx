@@ -20,10 +20,6 @@ class CreateNewApplication extends React.Component {
         }
     }
 
-
-
-
-
     async componentDidMount() {
         // get user
         const user = sessionStorage.getItem('user');

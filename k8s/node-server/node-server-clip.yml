@@ -1,13 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: server-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     component: node-server
-    app: server
   ports:
     - port: 8000
       targetPort: 8000
-      protocol: TCP

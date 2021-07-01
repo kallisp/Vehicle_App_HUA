@@ -3,6 +3,8 @@
 # dependencies
 /client/node_modules
 /server
+/db
+/email
 /.pnp
 .pnp.js
 **.key
@@ -23,5 +25,3 @@
 .env.production.local
 
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*

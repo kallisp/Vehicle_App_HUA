@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: mail-server
+      app: email
+  template:
+    metadata:
+      labels:
+        component: mail-server
+        app: email
+    spec:
+      containers:
+        - name: mail-server
+          image: 'ghcr.io/cgeorgala/mail-server:latest'
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: mail-server-config
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com-server

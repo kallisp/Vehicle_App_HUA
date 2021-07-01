@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mail-server-config
+  labels:
+    app: server
+data:
+  EMAIL: vehicle.app.hua@gmail.com
+  PASSWORD: vehicleapp123

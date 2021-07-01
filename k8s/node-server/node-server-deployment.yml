@@ -22,6 +22,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: node-server-config
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: Always
       imagePullSecrets:
         - name: dockerconfigjson-github-com-server

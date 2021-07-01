@@ -8,5 +8,5 @@ data:
   POSTGRES_DB: vehicle_transfer_db
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
-  POSTGRES_HOST: db
+  POSTGRES_HOST: pg-cluster-ip-service
   POSTGRES_PORT: '5432'
