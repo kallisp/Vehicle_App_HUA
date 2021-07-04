@@ -2,6 +2,8 @@ import React from 'react';
 import { withRouter, } from 'react-router-dom';
 import Base from '../index'
 import superagent from 'superagent';
+import withToast from './toaster';
+import config from '../config';
 
 class EvaluateApplication extends React.Component {
     constructor(props) {
@@ -13,11 +15,11 @@ class EvaluateApplication extends React.Component {
 
     async componentDidMount() {
         const id = this.props.match.params.id;
-        superagent.get(`/api/applications/findApplicationById/${id}`)
+        superagent.get(`${config.apiURL}/api/applications/findApplicationById/${id}`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 this.setState({ application: res.body })
             });
@@ -32,7 +34,7 @@ class EvaluateApplication extends React.Component {
     }
 
     updateStatus(status) {
-        superagent.put(`/api/applications/editApplicationStatus`)
+        superagent.put(`${config.apiURL}/api/applications/editApplicationStatus`)
             .send({
                 applId: this.props.match.params.id,
                 status
@@ -40,9 +42,9 @@ class EvaluateApplication extends React.Component {
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
-                alert('Η αίτηση ενημερώθηκε επιτυχώς');
+                this.props.addToast('Η αίτηση ενημερώθηκε επιτυχώς', { appearance: 'success', autoDismiss: true });
                 this.props.history.push('/employee-applications')
             });
     }
@@ -106,4 +108,4 @@ class EvaluateApplication extends React.Component {
     }
 }
 
-export default withRouter(EvaluateApplication);
+export default withToast(withRouter(EvaluateApplication));

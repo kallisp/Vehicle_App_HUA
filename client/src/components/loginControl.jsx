@@ -2,8 +2,11 @@ import React from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import Base from '../index'
 import superagent from 'superagent';
+import withToast  from './toaster';
+import config from '../config';
 
 class LoginControl extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -22,15 +25,15 @@ class LoginControl extends React.Component {
 
     async login(event) {
         event.preventDefault();
-        superagent.post('/api/users/loginUser')
+        superagent.post(`${config.apiURL}/api/users/loginUser`)
             .send({
                 username: this.state.username,
                 password: this.state.password
             })
             .set('accept', 'json')
             .end((err, res) => {
-                if (err) {
-                    return alert(res.body.message);
+                if (err || !res.body.role){
+                    return this.props.addToast('Μη έγκυρο όνομα ή/και κωδικός χρήστη', { appearance: 'error', autoDismiss:true });
                 }
                 const user = res.body;
                 sessionStorage.setItem('user', JSON.stringify(user));
@@ -45,9 +48,7 @@ class LoginControl extends React.Component {
         }
         else if (user.role === 'employee') {
             this.props.history.push('/employee-applications')
-        } else {
-            alert('invalid role')
-        }
+        } 
     }
 
 
@@ -66,12 +67,12 @@ class LoginControl extends React.Component {
             <Base>
                 <div className='container-col-login'>
                     <h4>Είσοδος</h4>
-                    <form className='loginForm'>
-                        <label for="username">Όνομα χρήστη</label>
-                        <input type="text" id="username" name="username" onChange={this.usernameChanged.bind(this)} /><br />
-                        <label for="password">Κωδικός πρόσβασης</label>
-                        <input type="password" id="password" name="password" onChange={this.passwordChanged.bind(this)} /><br /><br />
-                        <input className='button' type="submit" value="Είσοδος στην υπηρεσία" onClick={this.login.bind(this)} /><br />
+                    <form className='loginForm' onSubmit={this.login.bind(this)}>
+                        <label >Όνομα χρήστη</label>
+                        <input type="text" required id="username" name="username" onChange={this.usernameChanged.bind(this)} /><br />
+                        <label >Κωδικός πρόσβασης</label>
+                        <input type="password" required id="password" name="password" onChange={this.passwordChanged.bind(this)} /><br /><br />
+                        <input className='button' type="submit" value="Είσοδος στην υπηρεσία" /><br />
                         <div className='text-center'>Δεν έχετε λογαριασμό;
                             <NavLink to="/sign-up">
                                 <u><b>Εγγραφή</b></u>
@@ -84,4 +85,4 @@ class LoginControl extends React.Component {
     }
 }
 
-export default withRouter(LoginControl);
+export default withToast(withRouter(LoginControl));

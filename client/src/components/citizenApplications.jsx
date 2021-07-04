@@ -3,7 +3,8 @@ import { withRouter, NavLink } from 'react-router-dom';
 import Base from '../index'
 import CitizenMenu from './citizenMenu'
 import superagent from 'superagent';
-
+import withToast from './toaster';
+import config from '../config';
 
 class CitizenApplications extends React.Component {
     constructor(props) {
@@ -18,13 +19,13 @@ class CitizenApplications extends React.Component {
         try {
             user = JSON.parse(sessionStorage.getItem('user'));
         } catch (ex) {
-           return alert('user not found')
+           return this.props.history.push('/login');
         }
-        superagent.get(`/api/applications/findApplicationByUser/${user.id}`)
+        superagent.get(`${config.apiURL}/api/applications/findApplicationByUser/${user?.id}`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err){
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 this.setState({applications: res.body});
             });
@@ -73,4 +74,4 @@ class CitizenApplications extends React.Component {
     }
 }
 
-export default withRouter(CitizenApplications);
+export default withToast(withRouter(CitizenApplications));

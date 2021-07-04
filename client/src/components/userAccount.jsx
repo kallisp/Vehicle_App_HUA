@@ -1,26 +1,28 @@
 import React from 'react';
-import {  NavLink, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import userIcon from '../images/add-user.svg';
+import moreIcon from '../images/more.svg';
+
 // import superagent from 'superagent';
 
 class UserAccount extends React.Component {
-    constructor(props){
-		super(props);
-		this.state = {
-            user: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: null,
+            open: false
         }
     }
 
     componentDidMount() {
         const user = sessionStorage.getItem('user');
         const userObj = JSON.parse(user);
-        this.setState({user:userObj})
+        this.setState({ user: userObj })
     }
 
-    logout(){
+    logout() {
         sessionStorage.removeItem('user');
         this.props.history.push('/login');
-        // superagent.get('`http://localhost:8000/users/logoutUser')
     }
 
     render() {
@@ -32,12 +34,21 @@ class UserAccount extends React.Component {
 
             return (
                 <div className='userAccount'>
-                <div className='username-header'>{username}</div>
-                <button onClick={this.logout.bind(this)}>Έξοδος</button>
-            </div>
+                    <div className='username-header'>
+                        <div>{username}</div>
+                        <div className='username-options' onClick={e=> this.setState({open: !this.state.open})}>
+                            <img src={moreIcon} alt='logout' />
+                        </div>
+                        {this.state.open && 
+                        <div className="username-menu">
+                            <button onClick={this.logout.bind(this)}>Έξοδος</button>
+                        </div>
+                        }
+                    </div>
+                </div>
             )
         }
-        
+
         return (
             <NavLink to="/sign-up">
                 <div className='userAccount'>

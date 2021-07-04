@@ -3,6 +3,8 @@ import { withRouter, NavLink } from 'react-router-dom';
 import Base from '../index'
 import EmployeeMenu from './employeeMenu'
 import superagent from 'superagent';
+import withToast from './toaster';
+import config from '../config';
 
 class EmployeeApplications extends React.Component {
     constructor(props) {
@@ -13,11 +15,11 @@ class EmployeeApplications extends React.Component {
     }
 
     componentDidMount() {
-        superagent.get(`/api/applications/findApplicationByStatus`)
+        superagent.get(`${config.apiURL}/api/applications/findApplicationByStatus`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 this.setState({ applications: res.body });
             });
@@ -44,16 +46,21 @@ class EmployeeApplications extends React.Component {
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {this.state.applications.map((application) => {
-                                    return <tr key={application.applicationId}>
-                                        <td>{new Date(application.dateCreated).toDateString()}</td>
-                                        <td>{application.vehicleNum}</td>
-                                        <td>{application.vehicleType}</td>
-                                        <td><NavLink className="nav-link" to={`/employee-application-edit/${application.applicationId}`}>Προβολή</NavLink></td>
-                                    </tr>
-                                })}
-                            </tbody>
+                            {(this.state.applications.length === 0) &&
+                                <p>Δεν υπαρχουν αιτησεις σε εκκρεμότητα</p>
+                            }
+                            {(this.state.applications.length > 0) &&
+                                <tbody>
+                                    {this.state.applications.map((application) => {
+                                        return <tr key={application.applicationId}>
+                                            <td>{new Date(application.dateCreated).toDateString()}</td>
+                                            <td>{application.vehicleNum}</td>
+                                            <td>{application.vehicleType}</td>
+                                            <td><NavLink className="nav-link" to={`/employee-application-edit/${application.applicationId}`}>Προβολή</NavLink></td>
+                                        </tr>
+                                    })}
+                                </tbody>
+                            }
                         </table>
                     </div>
                 </div>
@@ -62,4 +69,4 @@ class EmployeeApplications extends React.Component {
     }
 }
 
-export default withRouter(EmployeeApplications);
+export default withToast(withRouter(EmployeeApplications));

@@ -2,6 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Base from '../index';
 import superagent from 'superagent';
+import withToast from './toaster';
+import config from '../config';
 
 class CreateNewApplication extends React.Component {
     constructor(props) {
@@ -30,11 +32,11 @@ class CreateNewApplication extends React.Component {
         const id = this.props.match.params.id;
         if (id === 'new') { return; }
 
-        superagent.get(`/api/applications/findApplicationById/${id}`)
+        superagent.get(`${config.apiURL}/api/applications/findApplicationById/${id}`)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 const cdate = new Date(res.body.certificateDate);
                 const certificateDate = cdate && `${cdate.getFullYear()}-${cdate.getMonth() < 10 ? "0" + cdate.getMonth() : cdate.getMonth()}-${cdate.getDay() < 10 ? "0" + cdate.getDay() : cdate.getDay()}`;
@@ -53,8 +55,9 @@ class CreateNewApplication extends React.Component {
             });
     }
 
-    createApplication() {
-        superagent.post('/api/applications/addApplication')
+    createApplication(e) {
+        e.preventDefault();
+        superagent.post(`${config.apiURL}/api/applications/addApplication`)
             .send({
                 vehicle_num: this.state.vehicle.regNumber,
                 certif_date: this.state.vehicle.certificateDate,
@@ -66,15 +69,21 @@ class CreateNewApplication extends React.Component {
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
-                alert('Η αίτησή σας βρίσκεται υπό επεξεργασία με κωδικό: ' + res.body.id);
+                this.props
+                    .addToast(
+                        'Η αίτησή σας βρίσκεται υπό επεξεργασία με κωδικό: ' + res.body.id,
+                        { appearance: 'success', autoDismiss: true }
+                    );
+
                 this.props.history.push('/citizen-applications')
             });
     }
 
-    updateApplication() {
-        superagent.put('/api/applications/editApplication')
+    updateApplication(e) {
+        e.preventDefault();
+        superagent.put(`${config.apiURL}/api/applications/editApplication`)
             .send({
                 vehicle_num: this.state.vehicle.regNumber,
                 certif_date: this.state.vehicle.certificateDate,
@@ -87,9 +96,13 @@ class CreateNewApplication extends React.Component {
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
-                    return alert(err.message);
+                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
-                alert('Η αίτησή σας βρίσκεται υπό επεξεργασία με κωδικό: ' + res.body.id);
+                this.props
+                    .addToast(
+                        'Η αίτησή σας βρίσκεται υπό επεξεργασία με κωδικό: ' + res.body.id,
+                        { appearance: 'success', autoDismiss: true }
+                    );
                 this.props.history.push('/citizen-applications')
             });
     }
@@ -111,6 +124,10 @@ class CreateNewApplication extends React.Component {
         });
     }
 
+     get isCompleted(){
+         return this.state.application?.status === 'Completed';
+     }
+
     render() {
         const certificateDate = this.state.vehicle.certificateDate;
         const buyerCode = this.state.buyer.buyerRegistrationCode;
@@ -119,18 +136,26 @@ class CreateNewApplication extends React.Component {
 
         return (
             <Base>
-                {!this.state.application &&
-                    <h4>Νέα αίτηση μεταβίβασης</h4>
-                }
-                {this.state.application &&
-                    <h4>Επεξεργασία αίτησης μεταβίβασης</h4>
-                }
-                <div className='container-row'>
-                    <div className='container-col'>
-                        <h5>Στοιχεία οχήματος</h5>
-                        <form className='signUpForm'>
+
+                <form className='signUpForm' onSubmit={e => !this.state.application
+                    ? this.createApplication(e)
+                    : this.updateApplication(e)}>
+
+                    {!this.state.application &&
+                        <h4>Νέα αίτηση μεταβίβασης</h4>
+                    }
+                    {this.state.application && !this.isCompleted &&
+                        <h4>Επεξεργασία αίτησης μεταβίβασης</h4>
+                    }
+                    {this.isCompleted &&
+                        <h4>Ολοκληρωμένη αίτησης μεταβίβασης</h4>
+                    }
+                    <div className='container-row'>
+                        <div className='container-col container-pad'>
+                            <h5>Στοιχεία οχήματος</h5>
+
                             <label for="vehicleType">Κατηγορία οχήματος</label>
-                            <select id="vehicleType" name="vehicleType" value={vehicleType} onChange={(event) => this.setVehicleValue(event, 'vehicleType')}>
+                            <select disabled={this.isCompleted} required id="vehicleType" name="vehicleType" value={vehicleType} onChange={(event) => this.setVehicleValue(event, 'vehicleType')}>
                                 <option value="">Επιλέξτε κατηγορία</option>
                                 <option value="Car">Αυτοκίνητο</option>
                                 <option value="Motorcycle">Μοτοσυκλέτα</option>
@@ -139,31 +164,30 @@ class CreateNewApplication extends React.Component {
                             </select>
                             <br />
                             <label for="regNumber">Αριθμός κυκλοφορίας</label>
-                            <input type="text" id="regNumber" name="regNumber" value={vehicleNum} onChange={(event) => this.setVehicleValue(event, 'regNumber')} /><br />
+                            <input disabled={this.isCompleted} required pattern="[A-Z]{3}[0-9]{4}" type="text" id="regNumber" name="regNumber" value={vehicleNum} onChange={(event) => this.setVehicleValue(event, 'regNumber')} /><br />
                             <label for="certificateDate">Ημερομηνία άδειας κυκλοφορίας</label>
-                            <input type="date" id="certificateDate" value={certificateDate} name="certificateDate" onChange={(event) => this.setVehicleValue(event, 'certificateDate')} /><br />
-                        </form>
-                    </div>
-                    <div className='container-col'>
-                        <h5>Στοιχεία αγοραστή</h5>
-                        <form className='signUpForm'>
-                            <label for="buyerRegistrationCode">ΑΦΜ</label>
-                            <input type="text" id="buyerRegistrationCode" value={buyerCode} name="buyerRegistrationCode" onChange={(event) => this.setBuyerValue(event, 'buyerRegistrationCode')} /><br />
-                        </form>
-                    </div>
+                            <input disabled={this.isCompleted} required type="date" id="certificateDate" value={certificateDate} name="certificateDate" onChange={(event) => this.setVehicleValue(event, 'certificateDate')} /><br />
 
-                </div>
-                <div className='container-row'>
-                    {!this.state.application &&
-                        <input className='button-application' type="submit" onClick={this.createApplication.bind(this)} value="Υποβολή" />
-                    }
-                    {this.state.application &&
-                        <input className='button-application' type="submit" onClick={this.updateApplication.bind(this)} value="Αποθήκευση" />
-                    }
-                </div>
+                        </div>
+                        <div className='container-col container-pad'>
+                            <h5>Στοιχεία αγοραστή</h5>
+                            <label for="buyerRegistrationCode">ΑΦΜ</label>
+                            <input disabled={this.isCompleted} required pattern="[0-9]{9}" type="text" id="buyerRegistrationCode" value={buyerCode} name="buyerRegistrationCode" onChange={(event) => this.setBuyerValue(event, 'buyerRegistrationCode')} /><br />
+                        </div>
+
+                    </div>
+                    <div className='container-row'>
+                        {!this.state.application &&
+                            <input className='button-application' type="submit" value="Υποβολή" />
+                        }
+                        {this.state.application && !this.isCompleted &&
+                            <input className='button-application' type="submit" value="Αποθήκευση" />
+                        }
+                    </div>
+                </form>
             </Base>
         )
     }
 }
 
-export default withRouter(CreateNewApplication);
+export default withToast(withRouter(CreateNewApplication));

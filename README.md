@@ -8,11 +8,15 @@
 
 * Manually Install node.js
 
-* ### `npm init`
-* ### `npm install`
-* ### `npm start`
+* #### `npm init`
+* #### `npm install`
+* #### `npm start`
 
-* Open http://localhost:3000/login to view it in the browser.
+</br >
+
+* change apiURL value for development mode in config.js
+
+* Open http://localhost:3000 to view it in the browser.
 
 ###  GET Endpoints
 * Register page http://localhost:3000/sign-up
@@ -20,7 +24,7 @@
 * User's home page http://localhost:3000/citizen-dashboard
 * Employee's home page http://localhost:3000/employee-applications
 
-
+</br >
 
 # Run the app in production mode #
 
@@ -50,6 +54,8 @@
 ```bash
 docker push ghcr.io/kallisp/react-nginx:latest
 ```
+
+</br >
 
 # **Deploy the project to a kubernetes cluster**
 
@@ -115,6 +121,7 @@ k get secrets
 k describe pod --pod-name
 k logs -f --pod-name
 ```
+</br >
 
 # Examples
 
@@ -183,12 +190,16 @@ tls-secret                           Opaque                                3    
 dockerconfigjson-github-com-server   kubernetes.io/dockerconfigjson        1      4d4h
 ```
 
+</br >
+
 # **Use case scenarios**
 
 ## App URL
-https://kspyrou.cloudns.cl/login
+https://kspyrou.cloudns.cl
 
 -- SSL Certificate expires on **Jul 13, 2021**
+
+</br >
 
 ## Accounts
 ### Employee: 
@@ -196,6 +207,7 @@ username: mariap \
 password: maria123 \
 email: vehicle.app.hua@gmail.com | password: vehicleapp123 
 
+</br >
 
 ### Citizen: 
 * User1 \

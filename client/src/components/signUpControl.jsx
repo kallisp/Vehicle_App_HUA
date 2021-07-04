@@ -1,6 +1,8 @@
 import React from 'react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Base from '../index'
+import config from '../config';
+import withToast from './toaster';
 
 import superagent from 'superagent';
 
@@ -17,13 +19,15 @@ class SignUpControl extends React.Component {
         "registrationCode": ""
     }
 
-    async signUp() {
-        superagent.post('/api/users/addUser')
+    async signUp(event) {
+        event.preventDefault();
+        superagent.post(`${config.apiURL}/api/users/addUser`)
             .send(this.data) // sends a JSON post body
             .set('accept', 'json')
             .end((err, res) => {
                 console.warn(err);
                 console.log(res);
+                this.props.history.push('/login');
             });
     }
 
@@ -34,38 +38,33 @@ class SignUpControl extends React.Component {
     render() {
         return (
             <Base>
-                <h4 className='text-center'>Εγγραφή</h4>
-                <div className='container-row'>
-                    <div className='container-col'>
-                        <form className='signUpForm'>
-                            <label for="fname">Όνομα</label>
-                            <input type="text" id="fname" name="fname" onChange={(event) => this.setValue(event, 'first_name')} /><br />
-                            <label for="lname">Επώνυμο</label>
-                            <input type="text" id="lname" name="lname" onChange={(event) => this.setValue(event, 'last_name')} /><br />
-                            <label for="sellerRegistrationCode">ΑΦΜ</label>
-                            <input type="text" id="sellerRegistrationCode" name="sellerRegistrationCode" onChange={(event) => this.setValue(event, 'registrationCode')} /><br />
-                        </form>
+                <form className='signUpForm' onSubmit={this.signUp.bind(this)}>
+                    <h4 className='text-center'>Εγγραφή</h4>
+                    <div className='container-row'>
+                        <div className='container-col container-pad'>
+                            <label>Όνομα</label>
+                            <input type="text" required id="fname" name="fname" onChange={(event) => this.setValue(event, 'first_name')} /><br />
+                            <label>Επώνυμο</label>
+                            <input type="text" required id="lname" name="lname" onChange={(event) => this.setValue(event, 'last_name')} /><br />
+                            <label>ΑΦΜ</label>
+                            <input type="text" pattern="[0-9]{9}" required id="sellerRegistrationCode" name="sellerRegistrationCode" onChange={(event) => this.setValue(event, 'registrationCode')} /><br />
+                        </div>
+                        <div className='container-col container-pad'>
+                            <label>Όνομα χρήστη</label>
+                            <input type="text" required id="username" name="username" onChange={(event) => this.setValue(event, 'username')} /><br />
+                            <label>Κωδικός πρόσβασης</label>
+                            <input type="password" required id="password" name="password" onChange={(event) => this.setValue(event, 'password')} /><br />
+                            <label>Email</label>
+                            <input type="email" required id="email" name="email" onChange={(event) => this.setValue(event, 'email')} /><br />
+                        </div>
                     </div>
-                    <div className='container-col'>
-                        <form className='signUpForm'>
-                            <label for="username">Όνομα χρήστη</label>
-                            <input type="text" id="username" name="username" onChange={(event) => this.setValue(event, 'username')} /><br />
-                            <label for="password">Κωδικός πρόσβασης</label>
-                            <input type="password" id="password" name="password" onChange={(event) => this.setValue(event, 'password')} /><br />
-                            <label for="email">Email</label>
-                            <input type="text" id="email" name="email" onChange={(event) => this.setValue(event, 'email')} /><br />
-                        </form>
+                    <div className='container-row'>
+                        <input className='button-signup' type="submit" value="Εγγραφή στην υπηρεσία" />
                     </div>
-
-                </div>
-                <div className='container-row'>
-                    <NavLink to="/login">
-                        <input className='button-signup' type="submit" value="Εγγραφή στην υπηρεσία" onClick={this.signUp.bind(this)} />
-                    </NavLink>
-                </div>
-            </Base>
+                </form>
+            </Base >
         )
     }
 }
 
-export default withRouter(SignUpControl);
+export default withToast(withRouter(SignUpControl));
