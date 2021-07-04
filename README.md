@@ -32,22 +32,22 @@
 
 ## Create docker image from frontend.Dockerfile and tag it with a name
 ```bash
-* docker build -f frontend.Dockerfile . --tag react-nginx:latest
+docker build -f frontend.Dockerfile . --tag react-nginx:latest
 ```
 
 ## Create container from specific image
 ```bash
-* docker run -d -p 3000:80 -d --name react-nginx:latest
+docker run -d -p 3000:80 -d --name react-nginx:latest
 ```
 
 ## Shell access into a container 
 ```bash
-* docker exec -it <container-id> sh
+docker exec -it <container-id> sh
 ```
 
 ## Upload images on Github Packages 
 ```bash
-* docker build -t ghcr.io/kallisp/react-nginx:latest -f frontend.Dockerfile .
+docker build -t ghcr.io/kallisp/react-nginx:latest -f frontend.Dockerfile .
 ```
 
 ## Push to github repository
@@ -57,7 +57,7 @@ docker push ghcr.io/kallisp/react-nginx:latest
 
 </br >
 
-# **Deploy the project to a kubernetes cluster**
+# **Deploy to a kubernetes cluster**
 
 ## kubectl alias
 ```bash
