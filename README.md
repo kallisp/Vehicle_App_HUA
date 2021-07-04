@@ -37,7 +37,7 @@ docker build -f frontend.Dockerfile . --tag react-nginx:latest
 
 ## Create container from specific image
 ```bash
-docker run -d -p 3000:80 -d --name react-nginx:latest
+docker run -d -p 3000:80 react-nginx:latest
 ```
 
 ## Shell access into a container 
@@ -199,6 +199,8 @@ https://kspyrou.cloudns.cl
 
 -- SSL Certificate expires on **Jul 13, 2021**
 
+-- Backup URL:  https://christinageo.cloudns.cl
+
 </br >
 
 ## Accounts
@@ -219,6 +221,16 @@ email: vehicle.user.hua@gmail.com | password: vehicleuser123
 username: giannis \
 password: giannis123 \
 email: vehicle.user2.hua@gmail.com | password: vehicleuser123
+
+<br/>
+
+### Validation restrictions in form inputs
+* All inputs are required to be filled
+* Όνομα/Επώνυμο: alphabetic characters
+* ΑΦΜ: 9 digits
+* email: email type (@) 
+* Αριθμός κυκλοφορίας οχήματος: 3 latin characters + 4 digits
+
 
 
 
