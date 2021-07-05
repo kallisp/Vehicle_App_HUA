@@ -64,12 +64,12 @@ docker exec -it <container-id> sh
 ```bash
 docker build -t ghcr.io/kallisp/react-nginx:latest -f frontend.Dockerfile .
 ```
-## Create secret
 
 ## Push to github repository
 ```bash
 docker push ghcr.io/kallisp/react-nginx:latest
 ```
+
 ## Create docker login secret
 * create <AUTH> from the command
 ```bash
