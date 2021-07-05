@@ -43,9 +43,9 @@ class SignUpControl extends React.Component {
                     <div className='container-row'>
                         <div className='container-col container-pad'>
                             <label>Όνομα</label>
-                            <input type="text" required id="fname" name="fname" onChange={(event) => this.setValue(event, 'first_name')} /><br />
+                            <input type="text" pattern="^[A-Za-zΆ-ώΑ-ωά-ω]+$" required id="fname" name="fname" onChange={(event) => this.setValue(event, 'first_name')} /><br />
                             <label>Επώνυμο</label>
-                            <input type="text" required id="lname" name="lname" onChange={(event) => this.setValue(event, 'last_name')} /><br />
+                            <input type="text" pattern="^[A-Za-zΆ-ώΑ-ωά-ω]+$" required id="lname" name="lname" onChange={(event) => this.setValue(event, 'last_name')} /><br />
                             <label>ΑΦΜ</label>
                             <input type="text" pattern="[0-9]{9}" required id="sellerRegistrationCode" name="sellerRegistrationCode" onChange={(event) => this.setValue(event, 'registrationCode')} /><br />
                         </div>

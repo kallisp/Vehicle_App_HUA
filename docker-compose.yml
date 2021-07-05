@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  react-nginx:
+    container_name: react-nginx
+    build:
+      context: ./client
+      dockerfile: frontend.Dockerfile
+    volumes:
+      - ./client:/app
+      - /app/nodes_modules
+      - /app/nginx/nginx.conf
+    ports:
+      - "3000:80"
+
