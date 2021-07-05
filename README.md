@@ -4,19 +4,29 @@
 
 * Vehicle Transfer Application | Front-end and Application Gateway component
 
+</br >
+
 # Run the app in development mode #
 
 * Manually Install node.js
 
-* #### `npm init`
-* #### `npm install`
-* #### `npm start`
+```bash
+cd client
+npm init
+npm install
+npm start
+```
 
 </br >
 
 * change apiURL value for development mode in config.js
+```bash
+apiURL : 'http://localhost:8000'
+```
 
 * Open http://localhost:3000 to view it in the browser.
+
+</br >
 
 ###  GET Endpoints
 * Register page http://localhost:3000/sign-up
@@ -35,6 +45,11 @@
 docker build -f frontend.Dockerfile . --tag react-nginx:latest
 ```
 
+## Docker Compose
+```bash
+docker-compose up --build -d
+```
+
 ## Create container from specific image
 ```bash
 docker run -d -p 3000:80 react-nginx:latest
@@ -49,12 +64,21 @@ docker exec -it <container-id> sh
 ```bash
 docker build -t ghcr.io/kallisp/react-nginx:latest -f frontend.Dockerfile .
 ```
+## Create secret
 
 ## Push to github repository
 ```bash
 docker push ghcr.io/kallisp/react-nginx:latest
 ```
-
+## Create docker login secret
+* create <AUTH> from the command
+```bash
+echo <USER>:<TOKEN> | base64
+```
+* create kubernetes secret
+```bash
+echo '{"auths":{"ghcr.io":{"auth":"<AUTH>"}}}' | kubectl create secret generic dockerconfigjson-github-com --type=kubernetes.io/dockerconfigjson --from-file=.dockerconfigjson=/dev/stdin
+```
 </br >
 
 # **Deploy to a kubernetes cluster**
@@ -110,7 +134,7 @@ source ~/.profile
     k apply -f k8s/client-ingress-ssl.yml
 ```
 
-## kubectl useful commands when apply yml files to check if the components are up and running
+## kubectl useful commands
 
 ```bash
 k get nodes | k get nodes -o wide
@@ -192,7 +216,7 @@ dockerconfigjson-github-com-server   kubernetes.io/dockerconfigjson        1    
 
 </br >
 
-# **Use case scenarios**
+# **Application URL & User accounts**
 
 ## App URL
 https://kspyrou.cloudns.cl
@@ -200,6 +224,14 @@ https://kspyrou.cloudns.cl
 -- SSL Certificate expires on **Jul 13, 2021**
 
 -- Backup URL:  https://christinageo.cloudns.cl
+
+</br >
+
+## DNS hosting
+* ClouDNS
+
+## SSL certificate
+* zeroSSL
 
 </br >
 
@@ -226,14 +258,7 @@ email: vehicle.user2.hua@gmail.com | password: vehicleuser123
 
 ### Validation restrictions in form inputs
 * All inputs are required to be filled
-* Όνομα/Επώνυμο: alphabetic characters
+* Όνομα/Επώνυμο: alphabetic characters (both latin and greek / uppercase or lowercase)
 * ΑΦΜ: 9 digits
 * email: email type (@) 
 * Αριθμός κυκλοφορίας οχήματος: 3 latin characters + 4 digits
-
-
-
-
-
-
-
