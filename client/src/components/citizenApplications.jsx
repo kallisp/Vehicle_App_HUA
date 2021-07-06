@@ -25,7 +25,7 @@ class CitizenApplications extends React.Component {
             .set('accept', 'json')
             .end((err, res) => {
                 if (err){
-                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
+                    return //this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 this.setState({applications: res.body});
             });
@@ -41,7 +41,7 @@ class CitizenApplications extends React.Component {
                     </div>
                     <div className='container-col-70'>
                         {this.state.applications.length === 0 &&
-                            <p> Δεν υπάρχουν αιτήσεις</p>
+                            <p>Δεν υπάρχουν αιτήσεις</p>
                         }
 
                         {this.state.applications.length > 0 &&

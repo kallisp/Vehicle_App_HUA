@@ -107,7 +107,7 @@ source ~/.profile
 
     k apply -f k8s/node-server-configmap.yml
     k apply -f k8s/node-server-deployment.yml
-    k apply -f k8s/node-server-clip.yml
+    k apply -f k8s/node-server-loadbalancer.yml
 ```
 
 * **mail-server**
@@ -163,10 +163,10 @@ node-server-deployment-7dd7f5476f-8tcjd   1/1     Running   3          47h
 k get deployments 
 
 NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
-mail-server-deployment   1/1     1            1           47h
-client-deployment        1/1     1            1           2d22h
-postgresdb               1/1     1            1           2d22h
-node-server-deployment   1/1     1            1           47h
+postgresdb               1/1     1            1           23h
+mail-server-deployment   1/1     1            1           23h
+node-server-deployment   1/1     1            1           81s
+client-deployment        1/1     1            1           19s
 ```
 
 ```bash
