@@ -18,7 +18,8 @@ class CreateNewApplication extends React.Component {
             },
             buyer: {
                 buyerRegistrationCode: ''
-            }
+            }, 
+            file: null
         }
     }
 
@@ -66,6 +67,7 @@ class CreateNewApplication extends React.Component {
                 seller_code: this.state.user.registrationcode,
                 buyer_code: this.state.buyer.buyerRegistrationCode,
             })
+            .attach('registrationPaper',this.state.file)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
@@ -124,6 +126,12 @@ class CreateNewApplication extends React.Component {
         });
     }
 
+    saveFile(event) {
+        this.setState({
+            file:  event.target.files[0]    
+        });
+    }
+
      get isCompleted(){
          return this.state.application?.status === 'Completed';
      }
@@ -173,6 +181,8 @@ class CreateNewApplication extends React.Component {
                             <h5>Στοιχεία αγοραστή</h5>
                             <label for="buyerRegistrationCode">ΑΦΜ</label>
                             <input disabled={this.isCompleted} required pattern="[0-9]{9}" type="text" id="buyerRegistrationCode" value={buyerCode} name="buyerRegistrationCode" onChange={(event) => this.setBuyerValue(event, 'buyerRegistrationCode')} /><br />
+                            <label for="buyerRegistrationPaper">Άδεια Κυκλοφορίας</label>
+                            <input disabled={this.isCompleted} type="file" id="buyerRegistrationPaper" name="buyerRegistrationPaper" onChange={(event) => this.saveFile(event)} /><br />
                         </div>
 
                     </div>

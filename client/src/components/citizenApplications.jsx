@@ -25,7 +25,7 @@ class CitizenApplications extends React.Component {
             .set('accept', 'json')
             .end((err, res) => {
                 if (err){
-                    return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
+                    return //this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 this.setState({applications: res.body});
             });
