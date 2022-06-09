@@ -41,7 +41,7 @@ class CitizenApplications extends React.Component {
                     </div>
                     <div className='container-col-70'>
                         {this.state.applications.length === 0 &&
-                            <p> Δεν υπάρχουν αιτήσεις</p>
+                            <p>Δεν υπάρχουν αιτήσεις</p>
                         }
 
                         {this.state.applications.length > 0 &&
