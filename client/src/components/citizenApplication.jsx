@@ -67,12 +67,18 @@ class CreateNewApplication extends React.Component {
                 seller_code: this.state.user.registrationcode,
                 buyer_code: this.state.buyer.buyerRegistrationCode,
             })
-            .attach('registrationPaper',this.state.file)
             .set('accept', 'json')
             .end((err, res) => {
                 if (err) {
                     return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
+                superagent.post(`${config.apiURL}/api/applications/addFile`)
+                .attach('registrationPaper',this.state.file)
+                .end((err, res) => {
+                    if (err) {
+                        return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
+                    }
+                })
                 this.props
                     .addToast(
                         'Η αίτησή σας βρίσκεται υπό επεξεργασία με κωδικό: ' + res.body.id,
