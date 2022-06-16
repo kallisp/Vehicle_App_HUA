@@ -9,7 +9,8 @@ class EvaluateApplication extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            application: null
+            application: null,
+            url: null
         }
     }
 
@@ -22,6 +23,14 @@ class EvaluateApplication extends React.Component {
                     return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
                 this.setState({ application: res.body })
+                superagent.get(`${config.apiURL}/api/applications/retrieveRegistrationPaperURL/${res.body.sellerCode}`)
+            		.set('accept', 'json')
+            		.end((err, res) => {
+                	if (err) {
+                    	return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
+                }
+                this.setState({ url: res.body.presignedGetObject })
+            });
             });
     }
 
@@ -58,6 +67,8 @@ class EvaluateApplication extends React.Component {
         const certificateDate = this.state.application?.certificateDate;
         const sellerFirstName = this.state.application?.sellerFirstName;
         const sellerLastName = this.state.application?.sellerLastName;
+        const presignedURL = this.state.url;
+
         return (
             <Base>
                 <h4>Στοιχεία αίτησης</h4>
@@ -88,6 +99,10 @@ class EvaluateApplication extends React.Component {
                                 <tr>
                                     <td className='tableEmployee'>Ημερομηνία άδειας κυκλοφορίας</td>
                                     <td>{new Date(certificateDate).toDateString()}</td>
+                                </tr>
+                                <tr>
+                                    <td className='tableEmployee'>Άδεια κυκλοφορίας</td>
+                                    <td><a href={presignedURL}>Ανάκτηση αρχείου</a></td>
                                 </tr>
                                 <tr>
                                     <td className='tableEmployee'>ΑΦΜ αγοραστή</td>

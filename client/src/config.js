@@ -2,7 +2,7 @@
 
 
 const config = {
-    apiURL : 'http://localhost:8000' // <-- development mode
+    apiURL : 'http://localhost:1880' // <-- development mode
     // apiURL : '' // <-- production mode
 }
 

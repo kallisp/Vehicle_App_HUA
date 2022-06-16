@@ -55,12 +55,13 @@ class CreateNewApplication extends React.Component {
                 });
             });
     }
-
+    
     createApplication(e) {
         e.preventDefault();
+        //for (let i=0; i<8; i++) {
         superagent.post(`${config.apiURL}/api/applications/addApplication`)
             .send({
-                vehicle_num: this.state.vehicle.regNumber,
+                vehicle_num: this.state.vehicle.regNumber,//.substring(0, this.state.vehicle.regNumber.length - 1)+ i,
                 certif_date: this.state.vehicle.certificateDate,
                 vehicle_type: this.state.vehicle.vehicleType,
                 usr_id: this.state.user.id,
@@ -72,7 +73,7 @@ class CreateNewApplication extends React.Component {
                 if (err) {
                     return this.props.addToast(err.message, { appearance: 'error', autoDismiss: true });
                 }
-                superagent.post(`${config.apiURL}/api/applications/addFile`)
+                 superagent.post(`${config.apiURL}/api/applications/addFile`)
                 .attach('registrationPaper',this.state.file)
                 .end((err, res) => {
                     if (err) {
@@ -87,6 +88,7 @@ class CreateNewApplication extends React.Component {
 
                 this.props.history.push('/citizen-applications')
             });
+    //}
     }
 
     updateApplication(e) {
@@ -131,8 +133,8 @@ class CreateNewApplication extends React.Component {
             }
         });
     }
-
-    saveFile(event) {
+    
+        saveFile(event) {
         this.setState({
             file:  event.target.files[0]    
         });
