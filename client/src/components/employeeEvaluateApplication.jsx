@@ -102,7 +102,7 @@ class EvaluateApplication extends React.Component {
                                 </tr>
                                 <tr>
                                     <td className='tableEmployee'>Άδεια κυκλοφορίας</td>
-                                    <td><a href={presignedURL}>Ανάκτηση αρχείου</a></td>
+                                    <td><a href={presignedURL}><i class="fa fa-download" aria-hidden="true"></i> Ανάκτηση αρχείου</a></td>
                                 </tr>
                                 <tr>
                                     <td className='tableEmployee'>ΑΦΜ αγοραστή</td>

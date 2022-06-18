@@ -12,7 +12,6 @@
 
 ```bash
 cd client
-npm init
 npm install
 npm start
 ```
